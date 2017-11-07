@@ -1,0 +1,55 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h2>{{  'selection.message.prereservation' | trans}}</h2>
+    <div class="container">
+        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+
+
+            <div class="block">
+
+                {{ 'message.app.user.connect' |trans ~ app.user.username }}<br />
+                    <a href="{{ path('fos_user_security_logout') }}">{{ 'message.deconnect' |trans }}</a><br />
+
+
+                <div id="form_connexion">
+                    {% if form is not defined %}
+                        <strong>{{ 'loc.form.booking-impossible' | trans }}</strong><br />
+                        {#Si vehicule non disponible #}
+                        {% if vehicle.available == 0 %}
+                            {{ 'loc.form.unavailable-booking-user' | trans }}<br />
+                        {% else %}
+                            {#Si preresa de ce véhicule #}
+                            {%  if prerent|length > 0 %}
+                                {{ 'loc.form.pre-booking-exist' | trans }}<br />
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <u>{{ 'loc.form.introduce' |trans }}</u><br />
+                        <div class="resa-existante">
+                            {% if daterent|length > 0 %}
+                                {{ 'loc.form.resa-exist' |trans }} <br />
+                                {% for dateprerent in daterent %}
+                                    {{ 'loc.form.resa-exist-intro' |trans ~ dateprerent.date|date('d-m-Y') ~ 'loc.form.duration-resa' |trans ~ dateprerent.duration |trans }}<br />
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        {{ form(form) }}
+
+                    {% endif %}
+                </div>
+
+
+                <br /><br />
+                <a href="{{ path('liste_vehicles') }}">
+                    <button type="button" class="btn btn-info btn-lg">
+                        <span class="fa fa-home" aria-hidden="true"></span> {{ 'message.backhome' |trans }}
+                    </button>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}

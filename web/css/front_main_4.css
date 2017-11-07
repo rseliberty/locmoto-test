@@ -1,0 +1,150 @@
+body {font: 18px/1.5 sans-serif;
+    text-align: center;
+    background-image:url("/bundles/app/images/fond-ecran.jpg");
+    background-size:cover;background-repeat: no-repeat;
+    padding-bottom: 3em;
+    background-attachment:fixed;
+    background-color: #337ab7
+}
+header {
+    clear:both
+}
+h1{
+    color:white;
+}
+.secure{
+    font-size: 14px;
+    color:#5a5a5a;
+    position:absolute;
+    top:0;
+    right:0;}
+.container {margin-top:10px;
+}
+.selecteur-home{
+    text-align:center;
+    margin:10px
+}
+.block { background-color: #FFF;
+    padding: 10px 10px 10px 10px;
+    text-align:center;
+    border: 1px solid #337ab7 ;
+    border-radius: 5px;
+    border-spacing: 0;
+    margin: 0 auto;
+    margin-bottom:10px;
+    font-size: 10px;
+}
+.btn-lg {
+    font-size:12px;
+}
+.blockconnexion {
+    background-color: #FFF;
+    padding: 10px 10px 10px 10px;
+    text-align:center;
+    border: 1px solid #337ab7 ;
+    border-radius: 5px;
+    border-spacing: 0; margin: 0 auto;
+    margin-bottom:10px;
+    width:25%;
+    font-size: 12px;
+}
+.model {
+    font-size:16px;
+    color:#337ab7;
+}
+.warning {
+    font-size:14px;
+    color:#9f191f;
+}
+div.description { font-size:14px;
+}
+.image {
+    text-align:center;
+}
+h1, h2 { line-height: 1.2;
+    margin: 0 0 .5em;
+}
+h1 {
+    font-size: 36px;
+}
+h2 {
+    font-size: 21px;
+    margin-bottom: 1em;
+    margin-top:1em;
+}
+p { margin: 0 0 1em 0;
+    font-size:14px;
+}
+a {
+    color: #337ab7;
+}
+a:hover {
+    text-decoration: none;
+}
+code { background: #F5F5F5;
+    max-width: 100px;
+    padding: 2px 6px;
+    word-wrap: break-word;
+}
+
+/* pour aligner les chps de formulaire */
+#fos_user_registration_form div, #form_connexion form, #form_resa_date, #form_resa_user div, #form_resa_duration, #form_resarapide_duration, #form_resarapide_date, #form_resarapide_user div {
+    display:flex;
+    flex-direction:column;
+    width:100%;
+}
+.resa-existante{
+    color:red;
+}
+#form_resa_user_submit, #form_resarapide_user_submit {
+    margin-top:20px;
+    display:flex;
+    flex-direction:column;
+    background-color: #337ab7;
+    color: #fff;
+    font-size: 14px;
+}
+ul li {
+    color:red;
+}
+label{
+    text-align: left;
+}
+/**/
+
+#welcome h1 span { display: block; font-size: 75%; }
+/* Prise en compte responsive */
+@media (min-width: 400px) {
+    #status a, #next a {
+        display: block;
+    }
+
+    @-webkit-keyframes fade-in {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    @keyframes fade-in {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    footer {
+        background-color: #337ab7;
+        position: fixed;
+        clear: both;
+        bottom: 0;
+        width: 100%;
+    }
+
+    footer p, footer a {
+        color: white;
+    }
+
+}

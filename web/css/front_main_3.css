@@ -1,0 +1,57 @@
+body {font: 18px/1.5 sans-serif;text-align: center;
+    background-image:url("/bundles/app/images/fond-ecran.jpg");
+    background-size:cover;background-repeat: no-repeat;
+    padding-bottom: 3em;
+    background-color: #337ab7}
+h1{color:white;}
+table {text-align:center}
+.block { background-color: #FFF; padding: 10px 10px 10px 10px; text-align:center; border: 1px solid #337ab7 ; border-radius: 5px;
+    border-spacing: 0; margin: 10px;}
+.model { font-size:16px;color:#337ab7;  }
+div.description { font-size:14px;   }
+h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
+h1 { font-size: 36px; }
+h2 { font-size: 21px; margin-bottom: 1em; margin-top:1em; }
+p { margin: 0 0 1em 0; font-size:14px; }
+a { color: #337ab7; }
+a:hover { text-decoration: none; }
+code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
+
+#welcome h1 span { display: block; font-size: 75%; }
+
+
+@media (min-width: 400px) {
+    #status a, #next a {
+        display: block;
+    }
+
+    @-webkit-keyframes fade-in {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    @keyframes fade-in {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    footer {
+        background-color: #337ab7;
+        position: fixed;
+        clear: both;
+        bottom: 0;
+        width: 100%;
+
+    }
+
+    footer p {
+        color: white;
+    }
+
+}

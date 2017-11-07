@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping
+        xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity
+            name="AppBundle\Entity\RentMoto"
+            table="rent"
+            repository-class="AppBundle\Entity\Repository\RentMotoRepository">
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <!-- pour recup les heures et les minutes mettre type "datetime" -->
+        <field name="date" type="date" length="50" nullable="true" />
+        <field name="duration" type="string" length="10" nullable="true" />
+        <field name="actived" type="boolean" nullable="false" />
+        <field name="comment" type="string" nullable="true" />
+        <many-to-one field="user" target-entity="AppBundle\Entity\User" inversed-by="rents">
+            <cascade>
+                <!-- Mettre "persist" plutot que "all" pour éviter si suppression d'une pré-résa que cela supprime le user-->
+                <cascade-persist/>
+            </cascade>
+            <join-columns>
+                <join-column name="id_user" referenced-column-name="id" nullable="false"/>
+            </join-columns>
+        </many-to-one>
+        <many-to-one field="vehicle" target-entity="AppBundle\Entity\Vehicle" inversed-by="rents">
+            <cascade>
+                <!-- Mettre "persist" plutot que "all" pr éviter si suppression d'une pré-résa que cela supprime le vehicule-->
+                <cascade-persist/>
+            </cascade>
+            <join-columns>
+                <join-column name="id_vehicle" referenced-column-name="id" nullable="false"/>
+            </join-columns>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

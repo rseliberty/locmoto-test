@@ -1,0 +1,23 @@
+liste_vehicles:
+    path: /
+    defaults: { _controller: AppBundle:Default:vehicles }
+
+loc_select_moto:
+    path: /selection/{model}
+    defaults: { _controller: AppBundle:Default:selection }
+    options:
+        utf8: true
+#sert pour le form de la page index.html.twig
+loc_select_filter:
+    path: /selection_filter
+    defaults: { _controller: AppBundle:Default:filter }
+
+preresa_moto:
+    path: /preresa/{model}
+    defaults: { _controller: AppBundle:Preresa:preresa }
+    options:
+        utf8: true
+
+preresarapide_moto:
+            path: /preresarapide/{model}
+            defaults: { _controller: AppBundle:Preresarapide:preresarapide }

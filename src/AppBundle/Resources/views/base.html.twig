@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{{ 'base.home.title' |trans }}{% endblock %}</title>
+        <!--par défaut le répertoire racine est web-->
+        <link rel="icon" type="image/x-icon" href="{{ asset('motoloc.ico') }}" />
+        {% block head_style %}
+            {% stylesheets
+            '@AppBundle/Resources/public/css/bootstrap.min.css'
+            '@AppBundle/Resources/public/css/bootstrap-select.min.css'
+            '@AppBundle/Resources/public/css/font-awesome.min.css'
+            '@AppBundle/Resources/public/css/main.css'
+            '@AppBundle/Resources/public/css/jquery-ui.css'
+
+            output='css/front.css'
+            filter='?uglifycss'
+            %}
+            {#ajout de jquery-ui pour datepicker#}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+            {% endstylesheets %}
+        {% endblock %}
+
+    </head>
+    <body>
+    <header>
+            <h1>{{ 'base.home.title' |trans }}</h1>
+                    <div class="secure">
+                        <a href="{{ path('easyadmin') }}">
+                            <button type="button" class="btn btn-info ">
+                                <span class="fa fa-key"></span> {{ 'base.home.perso' |trans }}
+                            </button>
+                        </a>
+                    </div>
+    </header>
+
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+           {% javascripts
+            '@AppBundle/Resources/public/js/jquery-1.12.4.min.js'
+            '@AppBundle/Resources/public/js/bootstrap.min.js'
+            '@AppBundle/Resources/public/js/bootstrap-select.min.js'
+            '@AppBundle/Resources/public/js/jquery-ui.js'
+            '@AppBundle/Resources/public/js/datepicker-fr.js'
+
+            filter='?uglifyjs2'
+            %}
+            {#ajout de jquery-ui pour datepicker#}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {#script pour datepicker#}
+            <script>
+                $( function() {
+                    $( "#form_resarapide_date,#form_resa_date" ).datepicker({
+
+                        beforeShowDay: function (date) {
+                            if (date.getDay() == 0) { // La semaine commence à 0 = Dimanche
+                                return [false, ''];
+                            } else {
+                                return [true, ''];
+                            }
+                        },
+                        dateFormat: 'dd/mm/yy',
+                        minDate: 'now'
+                    })
+                        .datepicker("setDate", new Date())
+                        .datepicker.regional['fr']
+                } );
+            </script>
+
+            {% endjavascripts %}
+        {% endblock %}
+    </body>
+    <footer>
+        <p><strong>{{ 'base.home.footer' |trans }}<br />
+        {{ 'base.home.contact' |trans }} | <a href="/uploads/documents/cgv.pdf" target="_blank">{{ 'base.home.cgv' |trans }}</a> | <a href="/uploads/documents/ml.pdf" target="_blank">{{ 'base.home.ml' |trans }}</a></p>
+    </footer>
+</html>
+

@@ -1,0 +1,62 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+
+    {% if app.user is defined and app.user is not empty %}
+        <div class="blockconnexion">
+            {{ 'message.app.user.connect' |trans ~ app.user.username }}<br />
+        <a href="{{ path('fos_user_security_logout') }}">{{ 'message.deconnect'|trans }}</a>
+        </div>
+        {% else %}
+            <a href="{{ path('fos_user_security_login') }}">
+                <button type="button" class="btn btn-primary btn-lg">
+                    <span class="fa fa-user" aria-hidden="true"></span> {{ 'message.connect'|trans }}
+                </button>
+            </a>&nbsp;
+            <a href="{{ path('fos_user_registration_register')}}">
+                <button type="button" class="btn btn-primary btn-lg">
+                    <span class="fa fa-check" aria-hidden="true"></span> {{ 'message.create.account'|trans }}
+                </button>
+            </a>
+
+    {% endif %}
+
+
+    <div class="container">
+        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+
+
+                <div class="block">
+                    <div class="model">
+                        <h2>{{ 'selection.message.choice'|trans ~ selection.model ~ 'selection.message.type'|trans ~ selection.type }} </h2>
+                        <span class="fa fa-chevron-circle-right" aria-hidden="true"></span> {{ selection.model ~ 'message.brand'|trans ~ selection.brand }}
+                    </div>
+                    <div class="description">{{ selection.description }}<br /><strong>{{ 'message.available' |trans }} {{ selection.available ? 'Oui':'Non' }}</strong>
+                    </div>
+                    <img src="{{ vich_uploader_asset(selection, 'logoFile') }}"  /><br />
+                    {% if selection.available ==1 %}
+                        <a href="{{ path('preresa_moto', { model: selection.model }) }}">
+                            <button type="button" class="btn btn-primary btn-lg">
+                                <span class="fa fa-chevron-circle-right" aria-hidden="true"></span> {{ 'selection.message.btn.prereservation'|trans }} <br />{{ 'selection.message.btn.prereservation.end'|trans }}
+                            </button>
+                        </a><br /><br />
+                        <a href="{{ path('preresarapide_moto', { model: selection.model }) }}">
+                            <span class="fa fa-chevron-circle-right" aria-hidden="true"></span> {{ 'selection.message.btn.prereservation-rapide'|trans ~ 'selection.message.btn.prereservation.end'|trans  }}
+                        </a>
+                    {% else %}
+                        <span class="warning">{{ 'selection.message_not_available' | trans ~ selection.comment  }}.</span>
+                    {% endif %}
+
+                    <br /><br />
+                    <a href="{{ path('liste_vehicles') }}">
+                        <button type="button" class="btn btn-info btn-lg">
+                            <span class="fa fa-home" aria-hidden="true"></span> {{ 'message.backhome' |trans }}
+                        </button>
+                    </a>
+                </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}

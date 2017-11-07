@@ -1,0 +1,33 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="blockconnexion">
+    <div class="block">
+        <u>{{ 'message.app.info.account' |trans }}</u>
+    {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+        {{ form_widget(form) }}
+        <div>
+            <input type="submit" value="Soumettre" />
+        </div>
+    {{ form_end(form) }}
+
+        {% block login %}
+            <div>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {{ 'Connecté'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'Se déconnecter'|trans({}, 'FOSUserBundle') }}
+                    </a>
+                {% else %}
+                    <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                {% endif %}
+            </div>
+        {% endblock login %}
+        <br /><br />
+        {% trans_default_domain 'messages' %}
+        <a href="{{ path('liste_vehicles') }}">
+            <button type="button" class="btn btn-info btn-lg">
+                <span class="fa fa-home" aria-hidden="true"></span> {{ 'message.backhome' |trans }}
+            </button>
+        </a>
+    </div>
+</div>

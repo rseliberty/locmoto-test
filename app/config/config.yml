@@ -1,0 +1,159 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr
+    justificatory_directory: '%kernel.project_dir%/web/uploads/justificatory'
+    app.path.vehicle_images: /uploads/images/vehicles
+    app.path.documents: /uploads/documents
+
+framework:
+    #esi: ~
+    translator: { fallbacks: '%locale%' }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: pgsql
+        connections:
+            pgsql:
+                driver: pdo_pgsql
+                host: '%database_host%'
+                port: '%database_port%'
+                dbname: '%database_name%'
+                user: '%database_user%'
+                password: '%database_password%'
+                charset: UTF8
+                # if using pdo_sqlite as your database driver:
+                #   1. add the path in parameters.yml
+                #     e.g. database_path: "%kernel.project_dir%/var/data/data.sqlite"
+                #   2. Uncomment database_path in parameters.yml.dist
+                #   3. Uncomment next line:
+                #path: '%database_path%'
+
+    orm:
+        default_entity_manager: default
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport:  smtp
+    encryption: ssl
+    auth_mode:  login
+    host:      '%mailer_host%'
+    username:  '%mailer_user%'
+    password:  '%mailer_password%'
+    logging:   '%kernel.debug%'
+
+assetic:
+    use_controller: false
+    bundles:
+        - AppBundle
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address:        noreply@locmoto.fr
+        sender_name:    Locmoto
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        vehicle_image:
+            uri_prefix:         /uploads/images/vehicles
+            upload_destination: '%kernel.root_dir%/../web/uploads/images/vehicles'
+        documents:
+            uri_prefix:         /uploads/documents
+            upload_destination: '%kernel.root_dir%/../web/uploads/documents'
+easy_admin:
+    entities:
+        RentMoto:
+            class: AppBundle\Entity\RentMoto
+            label: app.menu.rentMoto
+            list:
+                max_results: 30
+                title: "titleRentDate"
+                #mettre au niveau du format H:i si besoin
+                fields: [{ property: 'date', label: 'rentDate', format: 'j M Y' }, { property: 'duration', label: 'rentDuration' }, { property: 'user', label: 'rentUser' }, { property: 'vehicle', label: 'rentVehicle' }, { property: 'comment', label: 'rentComment' }, { property: 'actived', label: 'rentActived', type: 'toggle' }]
+            edit:
+                fields: [{ property: 'date', label: 'rentDate', format: 'j M Y' }, { property: 'duration', label: 'rentDuration' }, { property: 'user', label: 'rentUser' }, { property: 'vehicle', label: 'rentVehicle' }, { property: 'comment', label: 'rentComment' }, { property: 'actived', label: 'rentActived' }]
+            new:
+                fields: [{ property: 'date', label: 'rentDate', format: 'j M Y' }, { property: 'duration', label: 'rentDuration' }, { property: 'user', label: 'rentUser' }, { property: 'vehicle', label: 'rentVehicle' }, { property: 'comment', label: 'rentComment' }, { property: 'actived', label: 'rentActived' }]
+            show:
+                fields: [{ property: 'date', label: 'rentDate', format: 'j M Y' }, { property: 'duration', label: 'rentDuration' }, { property: 'user', label: 'rentUser' }, { property: 'vehicle', label: 'rentVehicle' }, { property: 'comment', label: 'rentComment' }, { property: 'actived', label: 'rentActived' }]
+
+        Vehicle:
+            class: AppBundle\Entity\Vehicle
+            label: app.menu.vehicle
+            list:
+                title: "titleVehicle"
+                fields: [{ property: 'model', label: 'vehicleModel' }, { property: 'brand', label: 'vehicleBrand' }, { property: 'type', label: 'vehicleType' }, { property: 'logo', label: 'vehicleImage', type: 'image', base_path: '%app.path.vehicle_images%' }, { property: 'description', label: 'vehicleDescription' }, { property: 'available', label: 'vehicleAvailable', type: 'toggle' }, { property: 'comment', label: 'vehicleComment' }, { property: 'registration', label: 'vehicleRegistration' }]
+            edit:
+                fields: [{ property: 'model', label: 'vehicleModel' }, { property: 'brand', label: 'vehicleBrand' }, { property: 'type', label: 'vehicleType' }, { property: 'logoFile', label: 'vehicleImage', type: 'vich_image', base_path: '%app.path.vehicle_images%', help: 'Sélectionner le fichier' }, { property: 'description', label: 'vehicleDescription' }, { property: 'available', label: 'vehicleAvailable' }, { property: 'comment', label: 'vehicleComment' }, { property: 'registration', label: 'vehicleRegistration' }]
+            new:
+                fields: [{ property: 'model', label: 'vehicleModel' }, { property: 'brand', label: 'vehicleBrand' }, { property: 'type', label: 'vehicleType' }, { property: 'logoFile', label: 'vehicleImage', type: 'vich_image', base_path: '%app.path.vehicle_images%', help: 'Sélectionner le fichier' }, { property: 'description', label: 'vehicleDescription' }, { property: 'available', label: 'vehicleAvailable' }, { property: 'comment', label: 'vehicleComment' }, { property: 'registration', label: 'vehicleRegistration' }]
+            show:
+                fields: [{ property: 'model', label: 'vehicleModel' }, { property: 'brand', label: 'vehicleBrand' }, { property: 'type', label: 'vehicleType' }, { property: 'logo', label: 'vehicleImage', type: 'image', base_path: '%app.path.vehicle_images%' }, { property: 'description', label: 'vehicleDescription' }, { property: 'available', label: 'vehicleAvailable' }, { property: 'comment', label: 'vehicleComment' }, { property: 'registration', label: 'vehicleRegistration' }]
+
+        User:
+            class: AppBundle\Entity\User
+            label: app.menu.user
+            list:
+                title: "titleUser"
+                fields: [{ property: 'username', label: 'userId' }, { property: 'email', label: 'userEmail' }, { property: 'roles', label: 'userRole' }, { property: 'lastname', label: 'userLastname' }, { property: 'firstname', label: 'userFirstname' }, { property: 'justificatory', label: 'userJustificatory', type: 'image', base_path: '/uploads/justificatory' }, { property: 'license', label: 'userLicense' }, { property: 'birthdate', label: 'userBirthdate' }, { property: 'address', label: 'userAddress' }, { property: 'zipcode', label: 'userZipcode', format: '%19s' }, { property: 'city', label: 'userCity' }, { property: 'phone', label: 'userTel',format: '%010s' }, { property: 'cnil', label: 'userCnil', type: 'toggle' }, { property: 'enabled', label: 'userEnabled', type: 'toggle' } ]
+            #Pas de possibilité d'uploader un justif ni renseigner un mot de passe depuis le BO pour éviter litige client > obligation de le faire depuis le FO
+            edit:
+                fields: [{ property: 'username', label: 'userId' }, { property: 'email', label: 'userEmail' }, { property: 'roles', label: 'userRole' }, { property: 'lastname', label: 'userLastname' }, { property: 'firstname', label: 'userFirstname' }, { property: 'license', label: 'userLicense' }, { property: 'birthdate', label: 'userBirthdate' }, { property: 'address', label: 'userAddress' }, { property: 'zipcode', label: 'userZipcode', format: '%19s' }, { property: 'city', label: 'userCity' }, { property: 'phone', label: 'userTel',format: '%010s' }, { property: 'cnil', label: 'userCnil'}, { property: 'enabled', label: 'userEnabled' }]
+            new:
+                fields: [{ property: 'username', label: 'userId' }, { property: 'email', label: 'userEmail' }, { property: 'roles', label: 'userRole' }, { property: 'lastname', label: 'userLastname' }, { property: 'firstname', label: 'userFirstname' }, { property: 'license', label: 'userLicense' }, { property: 'birthdate', label: 'userBirthdate' }, { property: 'address', label: 'userAddress' }, { property: 'zipcode', label: 'userZipcode', format: '%19s' }, { property: 'city', label: 'userCity' }, { property: 'phone', label: 'userTel',format: '%010s' }, { property: 'cnil', label: 'userCnil'}, { property: 'enabled', label: 'userEnabled' } ]
+            show:
+                fields: [{ property: 'username', label: 'userId' }, { property: 'email', label: 'userEmail' }, { property: 'roles', label: 'userRole' }, { property: 'lastname', label: 'userLastname' }, { property: 'firstname', label: 'userFirstname' }, { property: 'justificatory', label: 'userJustificatory', type: 'image', base_path: '/uploads/justificatory' }, { property: 'license', label: 'userLicense' }, { property: 'birthdate', label: 'userBirthdate' }, { property: 'address', label: 'userAddress' }, { property: 'zipcode', label: 'userZipcode', format: '%19s' }, { property: 'city', label: 'userCity' }, { property: 'phone', label: 'userTel',format: '%010s' }, { property: 'cnil', label: 'userCnil'}, { property: 'enabled', label: 'userEnabled' } ]
+
+        Document:
+            class: AppBundle\Entity\Document
+            label: app.menu.document
+            list:
+                title: "titleDocument"
+                fields: [{ property: 'mentions', label: 'documentMentions', type: 'file', base_path: '%app.path.documents%' }, { property: 'cgv', label: 'documentCgv', type: 'file', base_path: '%app.path.documents%' } ]
+            edit:
+                fields: [{ property: 'mentionsFile', label: 'documentMentions', type: 'file', base_path: '%app.path.documents%', help: 'Sélectionner le fichier' }, { property: 'cgvFile', label: 'documentCgv', type: 'file', base_path: '%app.path.documents%', help: 'Sélectionner le fichier' } ]
+            new:
+                fields: [{ property: 'mentionsFile', label: 'documentMentions', type: 'file', base_path: '%app.path.documents%', help: 'Sélectionner le fichier' }, { property: 'cgvFile', label: 'documentCgv', type: 'file', base_path: '%app.path.documents%', help: 'Sélectionner le fichier' } ]
+            show:
+                fields: [{ property: 'mentions', label: 'documentMentions', type: 'file', base_path: '%app.path.documents%' }, { property: 'cgv', label: 'documentCgv', type: 'file', base_path: '%app.path.documents%' } ]
+

@@ -1,0 +1,36 @@
+{#{% trans_default_domain 'FOSUserBundle' %}#}
+{% trans_default_domain 'messages' %}
+
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+<div class="blockconnexion">
+    <div id="form_connexion">
+        <u>{{ 'loc.form.introduce' |trans }}</u><br /><br />
+        <form action="{{ path("fos_user_security_check") }}" method="post">
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            {% endif %}
+                <label for="username">{{ 'message.app.id' |trans }}</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+                <label for="password">{{ 'userPassword' |trans}}</label>
+                <input type="password" id="password" name="_password" required="required" />
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                <label for="remember_me">{{ 'message.app.remember' |trans}}</label>
+                <input type="submit" id="_submit" name="_submit" value="Connexion" />
+        </form>
+    </div>
+    <br />
+    <a href="{{ path('fos_user_resetting_request') }}">{{ 'message.app.password.forget' |trans }}</a><br /><br />
+    <a href="{{ path('fos_user_registration_register')}}">
+        <button type="button" class="btn btn-primary btn-lg">
+            <span class="fa fa-check" aria-hidden="true"></span> {{'message.create.account' |trans }}
+        </button>
+    </a>
+    <br /><br />
+    <a href="{{ path('liste_vehicles') }}">
+        <button type="button" class="btn btn-info btn-lg">
+            <span class="fa fa-home" aria-hidden="true"></span> {{ 'message.backhome' |trans }}
+        </button>
+    </a>
+</div>

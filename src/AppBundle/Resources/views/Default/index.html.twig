@@ -1,0 +1,66 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    {% if app.user is defined and app.user is not empty %}
+        <div class="blockconnexion">
+            {{ 'message.app.user.connect' |trans ~ app.user.username }}<br />
+        <a href="{{ path('fos_user_security_logout') }}">{{ 'message.deconnect'|trans }}</a>
+        </div>
+    {% else %}
+        <a href="{{ path('fos_user_security_login') }}">
+            <button type="button" class="btn btn-primary btn-lg">
+                <span class="fa fa-user" aria-hidden="true"></span> {{ 'message.connect'|trans }}
+            </button>
+        </a>&nbsp;
+        <a href="{{ path('fos_user_registration_register')}}">
+            <button type="button" class="btn btn-primary btn-lg">
+                <span class="fa fa-check" aria-hidden="true"></span> {{ 'message.create.account'|trans }}
+            </button>
+        </a>
+    {% endif %}
+
+    {% if app.session.flashBag.has('success') %}
+        <div class="alert alert-success">
+            {% for msg in app.session.flashBag.get('success') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h2>{{ 'message.list.vehicle'|trans ~ vehicles|length ~ 'message.list.vehicle.end'|trans }}</h2>
+
+    <div class="container">
+        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+            <div class="selecteur-home"><p>{{ 'message.choice.model' |trans }} </p>
+                <form action="{{ path('loc_select_filter') }}" method="get">
+                    <select name="selection" class="selectpicker">
+                        {# vehicle peut avoir n'importe quel nom et vehicles correspond à la clé du tableau dans vehiclesAction #}
+                        {%  for vehicle in vehicles %}
+                            <option value="{{ vehicle.model }}">{{ vehicle.model }}</option>
+                        {% endfor %}
+                    </select>
+                    <input id="choixtype" class="btn btn-default" type="submit" value="Filtrer" />
+                </form>
+            </div>
+
+            {% for vehicle in vehicles %}
+
+            <div class="block">
+                <div class="model">
+                    <a href="{{ path('loc_select_moto', { model: vehicle.model }) }}"><span class="fa fa-chevron-circle-right" aria-hidden="true"></span>{{ vehicle.model ~ 'message.brand'|trans ~ vehicle.brand }}</a>
+                </div>
+                <div class="description"><strong>{{ 'message.available'|trans }} {{ vehicle.available ? 'message.available.yes'|trans :'message.available.no'|trans }}</strong>
+                </div>
+                <img src="{{ vich_uploader_asset(vehicle, 'logoFile') }}" width="25%" /><br />
+                <a href="{{ path('loc_select_moto', { model: vehicle.model }) }}">
+                    <button type="button" class="btn btn-primary btn-lg">
+                    <span class="fa fa-star" aria-hidden="true"></span> {{ 'message.more'|trans }}
+                    </button>
+                </a>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
